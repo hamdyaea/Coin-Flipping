@@ -22,9 +22,10 @@ def head():
     if top2 == [1]:
 
         coinChoice = ["Replay", "Quit"]
-
+        message = "You Win !\n\n\nThe result is head"
+        msgCenter = message.center(100)
         replay = buttonbox(image=easyHead, choices=coinChoice, title="Coin Flipping",
-                           msg="You Win !\n\nThe result is head")
+                           msg=msgCenter)
         if replay == "Replay":
             begin()
         else:
@@ -33,8 +34,10 @@ def head():
 
     else:
         coinChoice = ["Replay", "Quit"]
+        message = "You loose !\n\n\nThe result is tail"
+        msgCenter = message.center(100)
         replay = buttonbox(image=easyTail, choices=coinChoice, title="Coin Flipping",
-                           msg="You loose !\n\nThe result is tail")
+                           msg=msgCenter)
         if replay == "Replay":
             begin()
         else:
@@ -52,9 +55,10 @@ def tail():
     if top2 == [1]:
 
         coinChoice = ["Replay", "Quit"]
-
+        message = "You Win !\n\n\nThe result is tail"
+        msgCenter = message.center(100)
         replay = buttonbox(image=easyTail, choices=coinChoice, title="Coin Flipping",
-                           msg="You Win !\n\nThe result is tail")
+                           msg=msgCenter)
         if replay == "Replay":
             begin()
         else:
@@ -63,8 +67,10 @@ def tail():
 
     else:
         coinChoice = ["Replay", "Quit"]
+        message = "You loose !\n\n\nThe result is head"
+        msgCenter = message.center(100)
         replay = buttonbox(image=easyHead, choices=coinChoice, title="Coin Flipping",
-                           msg="You loose !\n\nThe result is head")
+                           msg=msgCenter)
         if replay == "Replay":
             begin()
         else:
@@ -73,8 +79,10 @@ def tail():
 
 def begin():
     yourChoice = ["Tail","Head"]
+    message = "Please select tail or head"
+    msgCenter = message.center(80)
     play = buttonbox(image=fullIMG, choices=yourChoice, title="Coin Flipping",
-                       msg="Please select tail or head")
+                       msg=msgCenter)
     if play == "Tail":
         tail()
     elif play == "Head":
