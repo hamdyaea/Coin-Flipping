@@ -25,7 +25,7 @@ sudo python3 -m pip install --upgrade easygui
 ## How to launch the game :
 
 ```sh
-CoinFlipping.py
+python3 CoinFlipping.py
 ```
 
 
