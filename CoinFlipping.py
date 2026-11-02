@@ -1,116 +1,78 @@
 #!/usr/bin/env python3
-#
-# Developer : Hamdy Abou El Anein
-# hamdy.aea@protonmail.com
+# Developer: Hamdy Abou El Anein
+# Contact: info@daylightlinux.ch
+# SPDX-License-Identifier: GPL-3.0-or-later
+"""A lightweight, accessible coin toss application using Tkinter."""
+from __future__ import annotations
 
-import random
-from easygui import *
-import sys
-
-
-class Coin:
-    def __init__(self):
-        self.Coin.easyHead
-        self.Coin.easyTail
-        self.Coin.fullIMG
+import argparse
+import secrets
+import tkinter as tk
+from tkinter import ttk
 
 
-Coin.easyHead = "./images/face.gif"
-Coin.easyTail = "./images/pile.gif"
-Coin.fullIMG = "./images/full.gif"
+def toss() -> str:
+    """Return a fair cryptographically independent coin toss."""
+    return ("Heads", "Tails")[secrets.randbelow(2)]
 
 
-def head():
-    inputNum = 2
-    outputNum = list(range(inputNum + 1))
-    outputNum.remove(0)
-    random.shuffle(outputNum)
-    top2 = outputNum[:1]
+class CoinApp(tk.Tk):
+    def __init__(self) -> None:
+        super().__init__()
+        self.title("Coin Flip · Hamdy Abou El Anein")
+        self.geometry("430x370")
+        self.minsize(360, 310)
+        self.configure(bg="#101827")
+        self.count = 0
+        self.heads = 0
+        self.result = tk.StringVar(value="Ready to flip?")
+        self.statistics = tk.StringVar(value="0 flips · 0 heads · 0 tails")
 
-    if top2 == [1]:
+        body = tk.Frame(self, bg="#101827", padx=32, pady=24)
+        body.pack(expand=True, fill="both")
+        tk.Label(body, text="COIN FLIP", font=("DejaVu Sans", 13, "bold"),
+                 fg="#8bd6c1", bg="#101827").pack(pady=(0, 14))
+        self.coin = tk.Label(body, text="◉", font=("DejaVu Sans", 64),
+                             fg="#f2c879", bg="#101827")
+        self.coin.pack()
+        tk.Label(body, textvariable=self.result, font=("DejaVu Sans", 21, "bold"),
+                 fg="#f7fafc", bg="#101827").pack(pady=(6, 12))
+        tk.Label(body, textvariable=self.statistics, font=("DejaVu Sans", 10),
+                 fg="#bac8d9", bg="#101827").pack()
+        actions = tk.Frame(body, bg="#101827")
+        actions.pack(pady=25)
+        tk.Button(actions, text="Flip coin", command=self.flip, bg="#7ddcc0",
+                  fg="#10211c", activebackground="#a8f0d9", font=("DejaVu Sans", 11, "bold"),
+                  relief="flat", padx=20, pady=10).pack(side="left", padx=6)
+        tk.Button(actions, text="Reset", command=self.reset, bg="#2a3a51",
+                  fg="#ffffff", activebackground="#435672", relief="flat",
+                  padx=16, pady=10).pack(side="left", padx=6)
+        self.bind("<space>", lambda _event: self.flip())
 
-        coinChoice = ["Replay", "Quit"]
-        message = "You Win !\n\n\nThe result is head"
-        msgCenter = message.center(100)
-        replay = buttonbox(
-            image=Coin.easyHead,
-            choices=coinChoice,
-            title="Coin Flipping",
-            msg=msgCenter,
-        )
-        if replay == "Replay":
-            begin()
-        else:
-            sys.exit(0)
+    def flip(self) -> None:
+        value = toss()
+        self.count += 1
+        self.heads += value == "Heads"
+        self.coin.config(text="H" if value == "Heads" else "T")
+        self.result.set(value)
+        self.statistics.set(f"{self.count} flips · {self.heads} heads · {self.count - self.heads} tails")
 
+    def reset(self) -> None:
+        self.count = self.heads = 0
+        self.coin.config(text="◉")
+        self.result.set("Ready to flip?")
+        self.statistics.set("0 flips · 0 heads · 0 tails")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--flip", action="store_true", help="Toss once in the terminal")
+    args = parser.parse_args()
+    if args.flip:
+        print(toss())
     else:
-        coinChoice = ["Replay", "Quit"]
-        message = "You lose !\n\n\nThe result is tail"
-        msgCenter = message.center(100)
-        replay = buttonbox(
-            image=Coin.easyTail,
-            choices=coinChoice,
-            title="Coin Flipping",
-            msg=msgCenter,
-        )
-        if replay == "Replay":
-            begin()
-        else:
-            sys.exit(0)
+        CoinApp().mainloop()
 
 
-def tail():
-    inputNum = 2
-    outputNum = list(range(inputNum + 1))
-    outputNum.remove(0)
-    random.shuffle(outputNum)
-    top2 = outputNum[:1]
-
-    if top2 == [1]:
-
-        coinChoice = ["Replay", "Quit"]
-        message = "You Win !\n\n\nThe result is tail"
-        msgCenter = message.center(100)
-        replay = buttonbox(
-            image=Coin.easyTail,
-            choices=coinChoice,
-            title="Coin Flipping",
-            msg=msgCenter,
-        )
-        if replay == "Replay":
-            begin()
-        else:
-            sys.exit(0)
-
-    else:
-        coinChoice = ["Replay", "Quit"]
-        message = "You lose !\n\n\nThe result is head"
-        msgCenter = message.center(100)
-        replay = buttonbox(
-            image=Coin.easyHead,
-            choices=coinChoice,
-            title="Coin Flipping",
-            msg=msgCenter,
-        )
-        if replay == "Replay":
-            begin()
-        else:
-            sys.exit(0)
-
-
-def begin():
-    yourChoice = ["Tail", "Head"]
-    message = "Please select tail or head"
-    msgCenter = message.center(80)
-    play = buttonbox(
-        image=Coin.fullIMG, choices=yourChoice, title="Coin Flipping", msg=msgCenter
-    )
-    if play == "Tail":
-        tail()
-    elif play == "Head":
-        head()
-    else:
-        sys.exit(0)
-
-
-begin()
+if __name__ == "__main__":
+    main()

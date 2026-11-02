@@ -1,35 +1,33 @@
-# Coin Flipping
+# Coin Flip
 
-## What's this game ?
+A lightweight, modern Python 3 application for coin toss.
 
-Coin Flipping is the practice of throwing a coin in the air and checking which side is showing when it lands to choose between two alternatives, sometimes to resolve a dispute between two parties. It is a form of sortition which inherently has only two possible and equally likely outcomes.  
+**Developer:** Hamdy Abou El Anein
+**Contact:** info@daylightlinux.ch
+**License:** GNU GPL v3 (see LICENSE).
 
+## Features
 
-![Screenshot](screenshot.png)
+- Python 3 with clear, testable application logic.
+- No EasyGUI dependency.
+- Tkinter desktop interface using Python standard library.
+- Original version preserved in the old branch:
+  https://github.com/hamdyaea/Coin-Flipping/tree/old
 
+## Requirements
 
+Python 3.10+ and Tkinter for desktop applications.
 
+## Run
 
-## What you need to make it work :
+    python3 CoinFlipping.py
 
-This game is made for Python 3.  
+Terminal mode:
 
-Install all the packages for : Python 3.  
+    python3 CoinFlipping.py --flip
 
-easygui at least version 0.98  
+## Test
 
-```sh
-sudo python3 -m pip install --upgrade easygui  
-```  
+    python3 -m unittest discover -s tests -v
 
-## How to launch the game :
-
-```sh
-python3 CoinFlipping.py
-```
-
-
-## Developer - Author
-
-Hamdy Abou El Anein
-
+Runs locally without a cloud service or account.
