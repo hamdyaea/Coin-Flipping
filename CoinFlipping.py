@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import secrets
+from pathlib import Path
 import tkinter as tk
 from tkinter import ttk
 
@@ -32,8 +33,10 @@ class CoinApp(tk.Tk):
         body.pack(expand=True, fill="both")
         tk.Label(body, text="COIN FLIP", font=("DejaVu Sans", 13, "bold"),
                  fg="#8bd6c1", bg="#101827").pack(pady=(0, 14))
-        self.coin = tk.Label(body, text="◉", font=("DejaVu Sans", 64),
-                             fg="#f2c879", bg="#101827")
+        images = Path(__file__).resolve().parent / "images"
+        self.faces = {key: tk.PhotoImage(file=str(images / name)) for key, name in
+                      (("Heads", "face.gif"), ("Tails", "pile.gif"), ("Ready", "full.gif"))}
+        self.coin = tk.Label(body, image=self.faces["Ready"], bg="#101827")
         self.coin.pack()
         tk.Label(body, textvariable=self.result, font=("DejaVu Sans", 21, "bold"),
                  fg="#f7fafc", bg="#101827").pack(pady=(6, 12))
@@ -53,13 +56,13 @@ class CoinApp(tk.Tk):
         value = toss()
         self.count += 1
         self.heads += value == "Heads"
-        self.coin.config(text="H" if value == "Heads" else "T")
+        self.coin.config(image=self.faces[value])
         self.result.set(value)
         self.statistics.set(f"{self.count} flips · {self.heads} heads · {self.count - self.heads} tails")
 
     def reset(self) -> None:
         self.count = self.heads = 0
-        self.coin.config(text="◉")
+        self.coin.config(image=self.faces["Ready"])
         self.result.set("Ready to flip?")
         self.statistics.set("0 flips · 0 heads · 0 tails")
 
